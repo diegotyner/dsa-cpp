@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
+
 
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
@@ -14,21 +16,31 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
 
 class Solution {
 public:
-    int solve(std::vector<int>& nums) {
-        return -1; // TODO
+    std::vector<int> twoSum(std::vector<int>& nums, int target) {
+        std::unordered_map<int, int> hm;
+
+        for (int i=0; i<nums.size(); i++) {
+            int num = nums[i];
+            if (hm.count(num)) 
+                return std::vector<int> {hm[num], i};
+            else 
+                hm[target-num] = i;
+        }
+        return std::vector<int> {-1}; 
     }
 };
 
 struct TestCase {
     std::vector<int> nums;
-    int expected;
+    int target;
+    std::vector<int> expected;
 };
 
 int main() {
     std::vector<TestCase> tests = {
-        {{10, 30, 21}, 32},
-        {{100, 70}, 92},
-        {{7, 3, 9}, 3}
+        {{2, 7, 11, 15}, 9, {0, 1}},
+        {{3, 2, 4}, 6, {1, 2}},
+        {{3, 3}, 6, {0, 1}}
     };
 
     Solution sol;
@@ -36,7 +48,7 @@ int main() {
 
     for (size_t i = 0; i < tests.size(); i++) {
         TestCase& t = tests[i];
-        auto actual = sol.solve(t.nums);
+        auto actual = sol.twoSum(t.nums, t.target);
         bool passed = (actual == t.expected);
         correct += passed;
 

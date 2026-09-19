@@ -11,7 +11,7 @@ import sys
 
 class Solution:
     def solve(self, nums: List[int]) -> int:
-        pass
+      pass
 
 
 @dataclass

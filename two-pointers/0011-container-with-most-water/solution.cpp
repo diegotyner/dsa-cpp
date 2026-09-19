@@ -15,7 +15,24 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& v) {
 class Solution {
 public:
     int solve(std::vector<int>& nums) {
-      return -1; // TODO
+      int n = nums.size();
+      int lp=0, rp=n-1;
+      int best = 0;
+
+      while (lp < rp) {
+        int left=nums[lp], right=nums[rp];
+        int bounding = std::min(left, right);
+        int area = bounding*(rp-lp);
+        if (area > best) {
+          best = area;
+        }
+        if (left < right) {
+          lp++;
+        } else {
+          rp--;
+        }
+      }
+      return best; // TODO
     }
 };
 
@@ -26,9 +43,8 @@ struct TestCase {
 
 int main() {
     std::vector<TestCase> tests = {
-        {{10, 30, 21}, 32},
-        {{100, 70}, 92},
-        {{7, 3, 9}, 3}
+        {{1,8,6,2,5,4,8,3,7}, 49},
+        {{1,1}, 1},
     };
 
     Solution sol;
